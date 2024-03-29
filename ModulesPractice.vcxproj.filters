@@ -21,5 +21,8 @@
     <ClCompile Include="TestModule.ixx">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="ThreadPoolModule.ixx">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

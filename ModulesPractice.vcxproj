@@ -133,6 +133,7 @@
   <ItemGroup>
     <ClCompile Include="ModulesPractice.cpp" />
     <ClCompile Include="TestModule.ixx" />
+    <ClCompile Include="ThreadPoolModule.ixx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
