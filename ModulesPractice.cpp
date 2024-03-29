@@ -1,16 +1,16 @@
-#include <thread>
-#include <chrono>
+#include <thread> // includes must be declared before importing any module
 
 import TestModule;
 
 int main()
 {
-    using namespace std::chrono_literals;
-
     Logging::MyFunc();
 
     // cout is transitively included via TestModule.ixx export import of <iostream>
     std::cout << "Hello World!\n";
+
+    std::cout << NumberFive() << "\n";
+    std::cout << NumberTen() << "\n";
 
     while (true)
     {
