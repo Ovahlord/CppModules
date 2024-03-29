@@ -1,6 +1,5 @@
 //#include <thread> // includes must be declared before importing any module
 
-import <thread>;
 import TestModule;
 import ThreadPoolModule;
 
@@ -17,17 +16,25 @@ int main()
     Logging::MyFunc();
 
     // cout is transitively included via TestModule.ixx export import of <iostream>
-    std::cout << "Hello World!\n";
+    std::cout << "Let's do some shenanigans!\n";
 
     std::cout << NumberFive() << "\n";
     std::cout << NumberTen() << "\n";
 
-    ThreadPool pool;
+    ThreadPool pool(5);
 
     int input = 0;
     std::cin >> input;
 
     for (int i = 0; i < input; ++i)
-        pool.RunOnNewThreat(PrintNumber, i);
+        pool.ScheduleNewTask(PrintNumber, i);
 
+    std::cout << "scheduled " << input << " tasks. Processing now\n";
+
+    while (pool.ProcessTasks())
+    {
+        std::this_thread::sleep_for(10ms);
+    }
+
+    std::cout << "all tasks processed.\n";
 }
