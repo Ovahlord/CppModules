@@ -1,8 +1,9 @@
 export module ThreadPoolModule;
 
-import <functional>;
+import <future>;
 import <queue>;
 export import <thread>;
+import <tuple>;
 import <vector>;
 
 export class ThreadPool
@@ -25,12 +26,15 @@ public:
             }
         }
 
-        _pendingTasks.push(std::bind(func, args...));
+        _pendingTasks.push([func = std::forward<F>(func), args = std::make_tuple(std::forward<Args>(args)...)]()
+        {
+            std::apply(func, std::move(args));
+        });
     }
 
     bool ProcessTasks()
     {
-        size_t idleThreads = 0;
+        size_t idleThreats = 0;
         for (auto& threat : _threads)
         {
             if (threat.joinable())
@@ -42,16 +46,16 @@ public:
                     _pendingTasks.pop();
                 }
                 else
-                    ++idleThreads;
+                    ++idleThreats;
             }
             else
-                ++idleThreads;
+                ++idleThreats;
         }
 
-        return (idleThreads != _threads.size());
+        return (idleThreats != _threads.size());
     }
 
 private:
     std::vector<std::jthread> _threads;
-    std::queue<std::function<void(void)>> _pendingTasks;
+    std::queue<std::function<void()>> _pendingTasks;
 };
